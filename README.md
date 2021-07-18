@@ -1,6 +1,6 @@
 # kubernetes-flask-app
 Deploy flask app using kubernetes
-
+(tham khảo từ https://github.com/noahgift/kubernetes-hello-world-python-flask)
 
 # remote ssh multipass instance with password
 
@@ -10,6 +10,8 @@ sudo nano /etc/ssh/sshd_config
 
 sudo service sshd reload
 ```
+
+chú ý khi remote ssh từ vscode, fai add new SSH host thì mới đc, chỉ connect thì k đc
 
 
 # lỗi docker expose trên windows nhưng k access đc
@@ -35,3 +37,6 @@ Vì instance này ko có public ip, nên để truy cập đc web từ browser l
 ssh -L localhost:8080:172.24.89.176:8080 ubuntu@172.24.89.176
 ```
 
+# kubernetes
+
+[Kubernetes.md](Kubernetes.md)
