@@ -49,9 +49,9 @@ Ngoài việc tạo từng nodes, mình có tìm thấy hdan tạo multinodes: h
 
 
 2. ko expose đc external-ip: 
-
-- theo mình tìm hiểu thì chỉ khi dùng kubernetes do các cloud provider (AWS, GCP, Azure) thì mới có tích hợp load balancer này. Nếu sử dụng minikube thì mặc định sẽ k expose đc external-ip => vì vậy sau khi run, mặc định chỉ dùng đc minikube ip, k dùng đc ip localhost hay ip srv. 
-    - sử dụng cluster-ip: `minikube service [service name]` hoặc `minikube ip` để xem ip và `kubectl get service` để xem port
+- theo mình hiểu, khi dùng type=load-balancer => sẽ cần 1 service LB để điều hướng. Mình đã test và tìm hiểu thì chỉ khi dùng kubernetes do các cloud provider (AWS, GCP, Azure) thì mới có tích hợp load balancer này. Nếu sử dụng minikube thì mặc định sẽ k tạo đc external-ip => vì vậy sau khi run, chỉ có thể truy cập đc web bằng cluster ip (có thể check bằng command `minikube ip`) => vì srv ko có (hoặc chưa cài) Load balancer service nên khi access localhost:port, hay ip_srv:port đều ko đc.
+    
+- khi dùng `kubectl get svc` => có thể nhìn thấy các thông tin port 6000:5000/TCP => ở đây 6000 là port của Load balancer, 5000 là port của cluster, để truy cập web trong pod. do LB ko có => để access web có thể access trực tiếp vào cluster, sử dụng cluster-ip: `minikube service [service name]` hoặc `minikube ip` để xem ip và `kubectl get service` để xem port
 
 - để tạo external-ip, mình có tìm đc 1 số hdan. Tuy nhiên cách này theo mình hiểu chỉ tạo external ip cho cluster, vẫn chưa dùng đc srv ip (cũng ko dùng đc localhost:port hay 127.0.0.1:port):
     - sử dụng `minikube tunnel` (chú ý là nếu ctrl+c thì external sẽ ko có nữa => fai mở 1 session terminal khác để curl) => sẽ tạo đc external-ip, truy cập đc qua external-ip, nhưng vẫn ko truy cập qua srv-ip đc (tham khảo https://minikube.sigs.k8s.io/docs/start/)
